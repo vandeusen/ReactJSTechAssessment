@@ -1,0 +1,115 @@
+1.  Declare a class based React component
+    a.  once the component has rendered once, use a lifecycle method to set state.foo to "bar" 
+    b.  declare a class member during component instantiation that gets populated with props.foo
+    c.  declare an input element that takes its value from foo and updates foo when the user changes the input's value
+
+    d.  describe when you would use componentWillUnmount
+		- componentWillUnmount is a lifecycle event that fires as the component is being removed from the DOM, it would be used for things like stopping running functions or terminating any waits still hanging or to re-set props/state values.
+
+
+import React, {Component} from ‘react’
+
+class TestComponent extends Component 
+{
+	constructor(props)
+	{
+		super(props);
+		this.state = {foo:''};
+		
+		this.handleChange = this.handleChange.bind(this);
+	}
+
+	componentDidMount()
+	{
+		this.setState({
+			foo: "bar"
+		});
+	}
+
+	handleChange(event)
+	{
+		this.setState({foo: event.target.value});
+	}
+
+	render()
+	{
+		return
+		(
+			<form>
+				<label>{props.foo}</label>
+				<input value={this.state.foo} onchange={this.handleChange}/>
+			</form>
+		)
+	}	
+}
+
+ReactDOM.render(
+	<TestComponent/>,
+	document.getElementById('componentWrapper')
+);
+
+
+
+
+
+
+2.  Declare a function based React component
+    a.  use a hook to set state of foo to "bar"
+    b.  deconstruct foo from props
+    c.  declare an input element that takes its value from foo and updates foo when the user changes the input's value
+
+    d.  describe one difference between a function based component and a class based component
+		- Class based components are inherintly stateful and therefore interact more easily with state and lifecycle events. Function components are simpler, and as they tend to produce less code are better suited to simply displaying passed down props that don't need state.
+
+import React, {useState} from 'react';
+
+function TestComponent(props)
+{	
+	const { foo } = this.props;
+	const [foo,setVar] = useState("bar");
+	
+	return
+	(
+		<input value={foo} onchange={e => setVar(e.target.value)}/>
+	)
+}
+
+const testVar = <TestComponent foo="bar"/>
+
+ReactDOM.render(
+	testVar,
+	document.getElementById('componentWrapper')
+);
+
+
+
+
+
+
+3.  Declare a function using arrow notation
+    a.  declare a variable inside the function foo as "bar"
+    b.  declare a second function nested inside the original
+    c.  update the inner function so that it self-executes when the outer function runs
+    d.  use foo inside of the inner function without creating a closure
+
+
+function NewFunctionComponent = (props) => {
+
+	var foo = "bar"
+
+	function innerFunction = () => {
+		this.setState({ foo });
+	}()
+
+}
+
+4.  In a few sentences, describe how the Javascript event loop works and how it differs from program execution in a programming language like C
+
+	- The javascript event loop is used to describe a process by which javascript functions are synchronously added to either the call stack or the callback queue. When all immediate execution events have completed the event loop will then step through the events in the callback queue, executing them in order one at a time. Other programming languages like C would instead load the entire application into memory, and then execute the application as a whole wihtout creating the opportunity to add asynchronous callbacks or to pause execution while waiting for user input.
+
+
+5.  Use a modern and native (listed on mdn) javascript API to convert an array of strings called strArr into an array of objects that contain one property called str with the corresponding value from the original array
+
+var strArr = ["item1","item2","item3"];
+
+var objArr = strArr.map((str) => ({value: str}));
